@@ -1,7 +1,7 @@
 {
   "name": "@khgame/one-line-call",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.1",
+  "description": "one line call parser",
   "main": "./lib/index.js",
   "scripts": {
     "test": "mocha -r ./node_modules/ts-node/register index.test.ts --exit",
@@ -41,6 +41,6 @@
     "typescript": "^3.3.3"
   },
   "files": [
-    "bin"
+    "lib"
   ]
 }
