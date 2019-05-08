@@ -1,4 +1,5 @@
 'use strict';
+import {IJsonRPC} from './IJsonRpc';
 
 export class OneLineCall {
 
@@ -65,6 +66,20 @@ export class OneLineCall {
         return result;
     }
 
+    public toJsonRpc(id: number = 0): IJsonRPC {
+        return {
+            jsonrpc: '2.0',
+            method: this.func,
+            params: this.args,
+            id: id
+        }
+    }
+
+    public serializeToJsonRpc(id: number = 0): string {
+        const jsonData = this.toJsonRpc(id);
+        return JSON.stringify(jsonData);
+    }
+
     /**
      * Parse raw sentences
      */
@@ -106,4 +121,5 @@ export class OneLineCall {
     public static parse(input: string) {
         return (new OneLineCall('')).parse(input);
     }
+
 }

@@ -69,5 +69,16 @@ describe(`one-line-call test`, async function () {
         done();
     });
 
+    it('toJsonRPC', function (done) {
+        const call = new OneLineCall('get', '1', 2, {a:3});
+        assert.deepEqual(call.toJsonRpc(996), {
+            jsonrpc: '2.0',
+            method: 'get',
+            params: ['1', 2, {a:3}],
+            id: 996
+        })
+        done();
+    });
+
 });
 

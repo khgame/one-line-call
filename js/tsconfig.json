@@ -10,7 +10,8 @@
     "resolveJsonModule": true,
     //    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "declaration": true, // `--declaration` are not allowed with `--allowJs` @discussion https://github.com/Microsoft/TypeScript/issues/7546
+    "declaration": true,
+    // `--declaration` are not allowed with `--allowJs` @discussion https://github.com/Microsoft/TypeScript/issues/7546
     //"allowJs": true,
     "lib": [
       "es6",
