@@ -1,5 +1,5 @@
 'use strict';
-import {IJsonRPC} from './IJsonRpc';
+import {IJsonRpc} from './IJsonRpc';
 
 export class OneLineCall {
 
@@ -66,7 +66,7 @@ export class OneLineCall {
         return result;
     }
 
-    public toJsonRpc(id: number = 0): IJsonRPC {
+    public toJsonRpc(id: number = 0): IJsonRpc {
         return {
             jsonrpc: '2.0',
             method: this.func,
