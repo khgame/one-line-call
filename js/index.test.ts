@@ -80,5 +80,20 @@ describe(`one-line-call test`, async function () {
         done();
     });
 
+    it('fromJsonRPC', function (done) {
+        const call = OneLineCall.parseFromJson({
+            jsonrpc: '2.0',
+            method: 'get',
+            params: ['1', 2, {a:3}],
+            id: 996
+        });
+        assert.equal(call.func, 'get');
+        assert.equal(call.args.length, 3);
+        assert.equal(call.args[0], '1');
+        assert.equal(call.args[1], 2);
+        assert.deepEqual(call.args[2], {a:3});
+        done();
+    });
+
 });
 

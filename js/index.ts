@@ -66,6 +66,12 @@ export class OneLineCall {
         return result;
     }
 
+    public fromJsonRpc(data : IJsonRpc) {
+        this.func = data.method;
+        this.args = data.params || [];
+        return this;
+    }
+
     public toJsonRpc(id: number = 0): IJsonRpc {
         return {
             jsonrpc: '2.0',
@@ -120,6 +126,10 @@ export class OneLineCall {
 
     public static parse(input: string) {
         return (new OneLineCall('')).parse(input);
+    }
+
+    public static parseFromJson(input: IJsonRpc) {
+        return (new OneLineCall('')).fromJsonRpc(input);
     }
 
 }
