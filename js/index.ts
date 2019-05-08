@@ -4,6 +4,31 @@ export class OneLineCall {
 
     public args: string[] = [];
 
+    public get chain(): string[] {
+        return this.func.split('.');
+    }
+
+    public chainLeaf(target: any) {
+        const chain = this.chain;
+
+        if(!target) {
+            throw new Error(`one-line-call chain target are not exist`);
+        }
+
+        for(const i in chain) {
+            const key: string = chain[i];
+            if(!target[key]) {
+                throw new Error(`one-line-call chaim broken at ${key}, for ${this.func}`);
+            }
+            if(target[key] instanceof Function) {
+                target = (target[key] as Function).bind(target);
+            } else {
+                target = target[key]
+            }
+        }
+        return target;
+    }
+
     constructor(public func: string, ...args: string[]) {
         this.args = args;
     }
@@ -36,6 +61,7 @@ export class OneLineCall {
         }
 
         this.func = input.substr(2, posCol - 2);
+
 
         let pos = posCol + 1;
         let posPrev = pos;
