@@ -1,7 +1,12 @@
 'use strict';
 import {IJsonRpc} from './IJsonRpc';
 
-export class OneLineCall {
+export interface IOneLineCall {
+    func: string;
+    args: any[];
+}
+
+export class OneLineCall implements IOneLineCall {
 
     public args: any[] = [];
 
@@ -66,7 +71,7 @@ export class OneLineCall {
         return result;
     }
 
-    public fromJsonRpc(data : IJsonRpc) {
+    public fromJsonRpc(data: IJsonRpc) {
         this.func = data.method;
         this.args = data.params || [];
         return this;
@@ -128,8 +133,18 @@ export class OneLineCall {
         return (new OneLineCall('')).parse(input);
     }
 
-    public static parseFromJson(input: IJsonRpc) {
-        return (new OneLineCall('')).fromJsonRpc(input);
-    }
+    public static parseFromJson(input: any) {
+        if (!input) {
+            throw new Error('input cannot be empty');
+        }
 
+        if (input.jsonrpc === '2.0') {
+            return (new OneLineCall('')).fromJsonRpc(input as IJsonRpc);
+        } else if (input.func) {
+            const {func, args} = input as IOneLineCall;
+            return new OneLineCall(func, ...args);
+        } else {
+            throw new Error('json input format error');
+        }
+    }
 }
