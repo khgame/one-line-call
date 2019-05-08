@@ -39,5 +39,35 @@ describe(`one-line-call test`, async function () {
         done();
     });
 
+    it('serialize (only func name)', function (done) {
+        const call = OneLineCall.parse('@[get]');
+        assert.equal(call.serialize(), '@[get]');
+        done();
+    });
+
+    it('serialize (one empty arg)', function (done) {
+        const call = OneLineCall.parse('@[get:1]');
+        assert.equal(call.serialize(), '@[get:1]');
+        done();
+    });
+
+    it('serialize (don not trim)', function (done) {
+        const call = OneLineCall.parse('@[get: 1]');
+        assert.equal(call.serialize(), '@[get: 1]');
+        done();
+    });
+
+    it('serialize (with comma)', function (done) {
+        const call = new OneLineCall('get', '1,');
+        assert.throw(()=>call.serialize());
+        done();
+    });
+
+    it('serialize (object)', function (done) {
+        const call = new OneLineCall('get', {a: 1, b: 2} );
+        assert.throw(()=> call.serialize());
+        done();
+    });
+
 });
 

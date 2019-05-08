@@ -2,7 +2,7 @@
 
 export class OneLineCall {
 
-    public args: string[] = [];
+    public args: any[] = [];
 
     public get chain(): string[] {
         return this.func.split('.');
@@ -11,16 +11,16 @@ export class OneLineCall {
     public chainLeaf(target: any) {
         const chain = this.chain;
 
-        if(!target) {
+        if (!target) {
             throw new Error(`one-line-call chain target are not exist`);
         }
 
-        for(const i in chain) {
+        for (const i in chain) {
             const key: string = chain[i];
-            if(!target[key]) {
+            if (!target[key]) {
                 throw new Error(`one-line-call chaim broken at ${key}, for ${this.func}`);
             }
-            if(target[key] instanceof Function) {
+            if (target[key] instanceof Function) {
                 target = (target[key] as Function).bind(target);
             } else {
                 target = target[key]
@@ -29,7 +29,7 @@ export class OneLineCall {
         return target;
     }
 
-    constructor(public func: string, ...args: string[]) {
+    constructor(public func: string, ...args: any[]) {
         this.args = args;
     }
 
@@ -38,7 +38,31 @@ export class OneLineCall {
      * @return {string}
      */
     public serialize() {
-        return `@[${this.func}:${this.args.join(',')}]`;
+        if (this.args.length <= 0) {
+            return `@[${this.func}]`
+        }
+        let result = `@[${this.func}:`;
+        for (let i = 0; i < this.args.length; i++) {
+            let c: any = this.args[i];
+
+            if (typeof c === 'object') {
+                throw new Error('serialize error: object are not supported');
+            } else if (typeof c !== 'string') {
+                c = `${c}`
+            }
+
+            if (c.indexOf(',') >= 0) {
+                throw new Error('serialize error: symbol "," cannot exist in the serialized argument');
+            }
+
+            result += c;
+            if (i !== this.args.length - 1) {
+                result += ',';
+            } else {
+                result += ']';
+            }
+        }
+        return result;
     }
 
     /**
@@ -51,7 +75,7 @@ export class OneLineCall {
         if (callType !== '@' && callType !== '#') throw new Error('parse transcal error: type mark must be @ or #.');
 
         const posCol = input.indexOf(':');
-        const posEnd = input.indexOf(']');
+        const posEnd = input.lastIndexOf(']');
         if (posEnd < 0) throw new Error('parse transcal error: cannot find end mark \']\'.');
 
         if (posCol < 0) { // if the col mark exist
