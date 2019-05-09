@@ -71,7 +71,7 @@ describe(`one-line-call test`, async function () {
 
     it('toJsonRPC', function (done) {
         const call = new OneLineCall('get', '1', 2, {a:3});
-        assert.deepEqual(call.toJsonRpc(996), {
+        assert.deepEqual(call.asJsonRpc(996), {
             jsonrpc: '2.0',
             method: 'get',
             params: ['1', 2, {a:3}],

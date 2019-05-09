@@ -71,24 +71,18 @@ export class OneLineCall implements IOneLineCall {
         return result;
     }
 
-    public fromJsonRpc(data: IJsonRpc) {
-        this.func = data.method;
-        this.args = data.params || [];
-        return this;
+    public serializeAsJsonRpc(id: number = 0): string {
+        const jsonData = this.asJsonRpc(id);
+        return JSON.stringify(jsonData);
     }
 
-    public toJsonRpc(id: number = 0): IJsonRpc {
+    public asJsonRpc(id: number = 0): IJsonRpc {
         return {
             jsonrpc: '2.0',
             method: this.func,
             params: this.args,
             id: id
         }
-    }
-
-    public serializeToJsonRpc(id: number = 0): string {
-        const jsonData = this.toJsonRpc(id);
-        return JSON.stringify(jsonData);
     }
 
     /**
@@ -112,7 +106,6 @@ export class OneLineCall implements IOneLineCall {
 
         this.func = input.substr(2, posCol - 2);
 
-
         let pos = posCol + 1;
         let posPrev = pos;
         const args = [];
@@ -129,6 +122,21 @@ export class OneLineCall implements IOneLineCall {
         return this;
     }
 
+    public parseFromJson(data: any) {
+        if (data.jsonrpc === '2.0') {
+            const {method, params} = data as IJsonRpc;
+            this.func = method;
+            this.args = params || [];
+        } else if (data.func) {
+            const {func, args} = data as IOneLineCall;
+            this.func = func;
+            this.args = args;
+        } else {
+            throw new Error('json input format error');
+        }
+        return this;
+    }
+
     public static parse(input: string) {
         return (new OneLineCall('')).parse(input);
     }
@@ -137,14 +145,6 @@ export class OneLineCall implements IOneLineCall {
         if (!input) {
             throw new Error('input cannot be empty');
         }
-
-        if (input.jsonrpc === '2.0') {
-            return (new OneLineCall('')).fromJsonRpc(input as IJsonRpc);
-        } else if (input.func) {
-            const {func, args} = input as IOneLineCall;
-            return new OneLineCall(func, ...args);
-        } else {
-            throw new Error('json input format error');
-        }
+        return (new OneLineCall('')).parseFromJson(input as IJsonRpc);
     }
 }
