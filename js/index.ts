@@ -96,13 +96,13 @@ export class OneLineCall implements IOneLineCall {
      */
     public parse(input: string) {
         const callType = input[0];
-        if (input.length < 4) throw new Error('parse transcal error: the input is too short.');
-        if (input[1] !== '[' || input[2] === ']') throw new Error('parse transcal error: formation error.');
-        if (callType !== '@' && callType !== '#') throw new Error('parse transcal error: type mark must be @ or #.');
+        if (input.length < 4) throw new Error('parse one-line-call string error: the input is too short.');
+        if (input[1] !== '[' || input[2] === ']') throw new Error('parse one-line-call string error: formation error.');
+        if (callType !== '@' && callType !== '#') throw new Error('parse one-line-call string error: type mark must be @ or #.');
 
         const posCol = input.indexOf(':');
         const posEnd = input.lastIndexOf(']');
-        if (posEnd < 0) throw new Error('parse transcal error: cannot find end mark \']\'.');
+        if (posEnd < 0) throw new Error('parse one-line-call  string error: cannot find end mark \']\'.');
 
         if (posCol < 0) { // if the col mark exist
             this.func = input.substr(2, posEnd - 2);
