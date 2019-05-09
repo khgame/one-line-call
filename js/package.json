@@ -42,6 +42,6 @@
   },
   "files": [
     "lib",
-    "IJsonRpc.d.ts"
+    "IJsonRpc.ts"
   ]
 }
