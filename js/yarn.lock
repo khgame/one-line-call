@@ -18,6 +18,11 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@khgame/jsonrpc@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npm.taobao.org/@khgame/jsonrpc/download/@khgame/jsonrpc-0.1.1.tgz#25ec3102afee77ddcd78cfb8dd3130ad92fdef8b"
+  integrity sha1-JewxAq/ud93NeM+43TEwrZL974s=
+
 "@types/chai@^4.1.7":
   version "4.1.7"
   resolved "https://registry.npm.taobao.org/@types/chai/download/@types/chai-4.1.7.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fchai%2Fdownload%2F%40types%2Fchai-4.1.7.tgz#1b8e33b61a8c09cbe1f85133071baa0dbf9fa71a"

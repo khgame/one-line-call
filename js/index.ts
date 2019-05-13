@@ -1,5 +1,6 @@
 'use strict';
-import {IJsonRpc} from './IJsonRpc';
+
+import {IJsonRpcNotification, IJsonRpcRequest} from '@khgame/jsonrpc/lib';
 
 export interface IOneLineCall {
     func: string;
@@ -76,7 +77,7 @@ export class OneLineCall implements IOneLineCall {
         return JSON.stringify(jsonData);
     }
 
-    public asJsonRpc(id: number = 0): IJsonRpc {
+    public asJsonRpc(id: number = Date.now()): IJsonRpcRequest {
         return {
             jsonrpc: '2.0',
             method: this.func,
@@ -124,7 +125,7 @@ export class OneLineCall implements IOneLineCall {
 
     public parseFromJson(data: any) {
         if (data.jsonrpc === '2.0') {
-            const {method, params} = data as IJsonRpc;
+            const {method, params} = data as IJsonRpcNotification;
             this.func = method;
             this.args = params || [];
         } else if (data.func) {
@@ -145,6 +146,6 @@ export class OneLineCall implements IOneLineCall {
         if (!input) {
             throw new Error('input cannot be empty');
         }
-        return (new OneLineCall('')).parseFromJson(input as IJsonRpc);
+        return (new OneLineCall('')).parseFromJson(input as IJsonRpcNotification);
     }
 }

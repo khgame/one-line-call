@@ -1,6 +1,6 @@
 {
   "name": "@khgame/one-line-call",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "one line call parser",
   "main": "./lib/index.js",
   "scripts": {
@@ -42,5 +42,8 @@
   },
   "files": [
     "lib"
-  ]
+  ],
+  "dependencies": {
+    "@khgame/jsonrpc": "^0.1.1"
+  }
 }
